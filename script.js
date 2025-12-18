@@ -3,13 +3,10 @@ let jsonData = [];
 let currentItemIndex = 0;
 
 document.addEventListener("DOMContentLoaded", function () {
-    dummyFill();
-
-    const inputBox = document.getElementById('jsonInput');
     // Run on input in the textarea
-    inputBox.addEventListener('input', processJson);
-
-
+    document.getElementById('jsonInput').addEventListener('input', processJson);
+    
+    //dummyFill();
 });
 
 function createStyledBlock(category, text, correct, result) {
@@ -128,61 +125,6 @@ function processJson() {
 function updateItemViewer() {
     const item = jsonData[currentItemIndex];
     createStyledBlock(item.Category, item.Text, item.Correct, item.Result);
-    /* 
-    <div class="styled-block">
-            <div class="item-row">
-                <div class="item-label">Category:</div>
-                <div class="quote-block">
-                    <div class="copy-indicator">Copied!</div>Science
-                </div>
-            </div>
-            <div class="item-row">
-                <div class="item-label">Text:</div>
-                <div class="quote-block">
-                    <div class="copy-indicator">Copied!</div>The speed of light is approximately 299,792,458 meters per
-                    second.
-                </div>
-            </div>
-            <div class="item-row">
-                <div class="item-label">Correct:</div>
-                <div class="quote-block">
-                    <div class="copy-indicator">Copied!</div>True
-                </div>
-            </div>
-            <div class="item-row">
-                <div class="item-label">Result:</div>
-                <div class="quote-block">
-                    <div class="copy-indicator">Copied!</div>Answer is correct
-                </div>
-            </div>
-    </div>*/
-    /* document.getElementById('itemContentContainer').innerHTML = `
-    <div class="styled-block">
-        <div class="item-row">
-            <div class="item-label">Category:</div>
-            <div class="quote-block">
-                <div class="copy-indicator">Copied!</div>${item.Category}
-            </div>
-        </div>
-        <div class="item-row">
-            <div class="item-label">Text:</div>
-            <div class="quote-block">
-                <div class="copy-indicator">Copied!</div>${item.Text}
-            </div>
-        </div>
-        <div class="item-row">
-            <div class="item-label">Correct:</div>
-            <div class="quote-block">
-                <div class="copy-indicator">Copied!</div>${item.Correct}
-            </div>
-        </div>
-        <div class="item-row">
-            <div class="item-label">Result:</div>
-            <div class="quote-block">
-                <div class="copy-indicator">Copied!</div>${item.Result}
-            </div>
-        </div>
-    </div>`; */
 
 
     // OLD

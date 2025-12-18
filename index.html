@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <title>JSON Data Viewer</title>
+    <link rel="icon" type="image/png" href="icons/pencils.png">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -10,8 +11,9 @@
 
     <textarea id="jsonInput" placeholder="Paste your JSON array here..."></textarea>
 
+    <!-- <div class="actions"><button onclick="processJson()">Process JSON</button></div> -->
     <div class="actions">
-        <button onclick="processJson()">Process JSON</button>
+        <button onclick="clearBox()">Clear</button>
     </div>
 
     <div class="container">
@@ -38,8 +40,12 @@
     </div>
 
     <script>
+        const inputBox = document.getElementById('jsonInput');
+        function clearBox() {
+
+        }
         function processJson() {
-            let input = document.getElementById('jsonInput').value.trim();
+            let input = inputBox.value.trim();
 
             let data;
             try {
@@ -94,7 +100,7 @@
             });
         }
         // Run processJson on input in the textarea
-        document.getElementById('jsonInput').addEventListener('input', processJson);
+        inputBox.addEventListener('input', processJson);
     </script>
 
 </body>

@@ -140,9 +140,9 @@
                 if (item.Result) resultLines.push(item.Result);
             }
 
-            document.getElementById('textBlock').textContent = textLines.join('\n');
-            document.getElementById('correctBlock').textContent = correctLines.join('\n');
-            document.getElementById('resultBlock').textContent = resultLines.join('\n');
+            document.getElementById('textBlock').textContent = "========== TEXT ==========\n" + textLines.join('\n');
+            document.getElementById('correctBlock').textContent = "========== CORRECT ==========\n" + correctLines.join('\n');
+            document.getElementById('resultBlock').textContent = "========== RESULT ==========\n" + resultLines.join('\n');
         }
 
         function copyBlock(id) {

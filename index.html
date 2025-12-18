@@ -2,156 +2,154 @@
 <html lang="en">
 
 <head>
-<meta charset="UTF-8" />
-<title>JSON Three-Block Viewer</title>
-<style>
-body {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-    background: #f4f6f8;
-    margin: 0;
-    padding: 24px;
-}
+    <meta charset="UTF-8" />
+    <title>JSON Three-Block Viewer</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        h1 {
+            text-align: center;
+            margin-bottom: 16px;
+        }
 
-h1 {
-    text-align: center;
-    margin-bottom: 16px;
-}
+        textarea {
+            width: 100%;
+            min-height: 180px;
+            padding: 12px;
+            font-family: monospace;
+            box-sizing: border-box;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            resize: vertical;
+        }
 
-textarea {
-    width: 100%;
-    min-height: 180px;
-    padding: 12px;
-    font-family: monospace;
-    box-sizing: border-box;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    resize: vertical;
-}
+        .actions {
+            text-align: center;
+            margin: 16px 0 32px 0;
+        }
 
-.actions {
-    text-align: center;
-    margin: 16px 0 32px 0;
-}
+        button {
+            padding: 10px 18px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            background: #2563eb;
+            color: white;
+        }
 
-button {
-    padding: 10px 18px;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    font-weight: 600;
-    background: #2563eb;
-    color: white;
-}
+        button.copy {
+            background: #4b5563;
+            margin-top: 10px;
+        }
 
-button.copy {
-    background: #4b5563;
-    margin-top: 10px;
-}
+        button:hover {
+            opacity: 0.9;
+        }
 
-button:hover {
-    opacity: 0.9;
-}
+        .container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            width: 100%;
+            margin: 0 auto;
+        }
 
-.container {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    width: 100%;
-    margin: 0 auto;
-}
+        .block {
+            flex: 1;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+        }
 
-.block {
-    flex: 1;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-}
+        .block h2 {
+            text-align: center;
+            margin: 0 0 12px 0;
+        }
 
-.block h2 {
-    text-align: center;
-    margin: 0 0 12px 0;
-}
-
-.content {
-    flex: 1;
-    white-space: pre-wrap;
-    font-family: monospace;
-    font-size: 14px;
-    background: #f9fafb;
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
-    padding: 12px;
-    overflow-y: auto;
-}
-</style>
+        .content {
+            flex: 1;
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 14px;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 12px;
+            overflow-y: auto;
+        }
+    </style>
 </head>
 
 <body>
-  <h1>JSON Text / Correct / Result Viewer</h1>
+    <h1>JSON Text / Correct / Result Viewer</h1>
 
-  <textarea id="jsonInput" placeholder="Paste your JSON array here..."></textarea>
+    <textarea id="jsonInput" placeholder="Paste your JSON array here..."></textarea>
 
-  <div class="actions">
-    <button onclick="processJson()">Process JSON</button>
-  </div>
-
-  <div class="container">
-    <div class="block">
-      <h2>Text</h2>
-      <div id="textBlock" class="content"></div>
-      <button class="copy" onclick="copyBlock('textBlock')">Copy</button>
+    <div class="actions">
+        <button onclick="processJson()">Process JSON</button>
     </div>
 
-    <div class="block">
-      <h2>Correct</h2>
-      <div id="correctBlock" class="content"></div>
-      <button class="copy" onclick="copyBlock('correctBlock')">Copy</button>
+    <div class="container">
+        <div class="block">
+            <h2>Text</h2>
+            <div id="textBlock" class="content"></div>
+            <button class="copy" onclick="copyBlock('textBlock')">Copy</button>
+        </div>
+
+        <div class="block">
+            <h2>Correct</h2>
+            <div id="correctBlock" class="content"></div>
+            <button class="copy" onclick="copyBlock('correctBlock')">Copy</button>
+        </div>
+
+        <div class="block">
+            <h2>Result</h2>
+            <div id="resultBlock" class="content"></div>
+            <button class="copy" onclick="copyBlock('resultBlock')">Copy</button>
+        </div>
     </div>
 
-    <div class="block">
-      <h2>Result</h2>
-      <div id="resultBlock" class="content"></div>
-      <button class="copy" onclick="copyBlock('resultBlock')">Copy</button>
-    </div>
-  </div>
+    <script>
+        function processJson() {
+            let input = document.getElementById('jsonInput').value.trim();
 
-  <script>
-    function processJson() {
-      const input = document.getElementById('jsonInput').value.trim();
+            let data;
+            try {
+                // Remove trailing comma if present before closing ]
+                if (input.endsWith(',')) {
+                    input = input.slice(0, -1);
+                }
+                // Allow users to paste raw object lists without surrounding []
+                const normalized = input.startsWith('[') ? input : `[${input}]`;
+                data = JSON.parse(normalized);
+            } catch (err) {
+                alert('Invalid JSON');
+                return;
+            }
 
-      let data;
-      try {
-        // Allow users to paste raw object lists without surrounding []
-        const normalized = input.startsWith('[') ? input : `[${input}]`;
-        data = JSON.parse(normalized);
-      } catch (err) {
-        alert('Invalid JSON');
-        return;
-      }
+            const textLines = [];
+            const correctLines = [];
+            const resultLines = [];
 
-      const textLines = [];
-      const correctLines = [];
-      const resultLines = [];
+            for (const item of data) {
+                if (item.Text) textLines.push(item.Text);
+                if (item.Correct) correctLines.push(item.Correct);
+                if (item.Result) resultLines.push(item.Result);
+            }
 
-      for (const item of data) {
-        if (item.Text) textLines.push(item.Text);
-        if (item.Correct) correctLines.push(item.Correct);
-        if (item.Result) resultLines.push(item.Result);
-      }
+            document.getElementById('textBlock').textContent = textLines.join('\n');
+            document.getElementById('correctBlock').textContent = correctLines.join('\n');
+            document.getElementById('resultBlock').textContent = resultLines.join('\n');
+        }
 
-      document.getElementById('textBlock').textContent = textLines.join('\n');
-      document.getElementById('correctBlock').textContent = correctLines.join('\n');
-      document.getElementById('resultBlock').textContent = resultLines.join('\n');
-    }
-
-    function copyBlock(id) {
-      const text = document.getElementById(id).textContent;
-      navigator.clipboard.writeText(text);
-    }
-  </script>
+        function copyBlock(id) {
+            const text = document.getElementById(id).textContent;
+            navigator.clipboard.writeText(text);
+        }
+    </script>
 
 </body>
 

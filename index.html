@@ -65,15 +65,19 @@
                 if (item.Result) resultLines.push(item.Result);
             }
 
-            document.getElementById('textBlock').textContent = "========== TEXT ==========\n" + textLines.join('\n');
-            document.getElementById('correctBlock').textContent = "========== CORRECT ==========\n" + correctLines.join('\n');
-            document.getElementById('resultBlock').textContent = "========== RESULT ==========\n" + resultLines.join('\n');
+            document.getElementById('textBlock').textContent = textLines.join('\n');
+            document.getElementById('correctBlock').textContent = correctLines.join('\n');
+            document.getElementById('resultBlock').textContent = resultLines.join('\n');
         }
 
         function copyBlock(id) {
+            console.log(`Copied: "${id}"`);
+            //let p = id.replace('Block', '');
+            //p = p.charAt(0).toUpperCase() + p.slice(1);
+            console.log(`P: "${id.replace('Block', '').toUpperCase()}"`);
             const text = document.getElementById(id).textContent;
-            //navigator.clipboard.writeText(text);
-            navigator.clipboard.writeText(text).then(() => {
+            let copyText = `========== ${id.replace('Block', '').toUpperCase()} ==========\n` + text;
+            navigator.clipboard.writeText(copyText).then(() => {
                 // Show tooltip for the specific block
                 const tooltipId = id.replace('Block', 'Tooltip');
                 const tooltip = document.getElementById(tooltipId);

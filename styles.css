@@ -75,6 +75,7 @@ button:hover {
     white-space: pre-wrap;
     font-family: monospace;
     font-size: 14px;
+    font-size: 10px;
     background: #f9fafb;
     border: 1px solid #e5e7eb;
     border-radius: 8px;
@@ -102,7 +103,6 @@ button:hover {
     transition: opacity 0.3s, visibility 0.3s;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
-
 .tooltip:after {
     content: '';
     position: absolute;
@@ -112,7 +112,6 @@ button:hover {
     border: 6px solid transparent;
     border-top-color: #333;
 }
-
 .tooltip.show {
     opacity: 1;
     visibility: visible;

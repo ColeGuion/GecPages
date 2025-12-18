@@ -1,88 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
-    <title>Json Data Viewer</title>
+    <title>JSON Data Viewer</title>
     <link rel="stylesheet" href="styles.css">
-    <style>
-        h1 {
-            text-align: center;
-            margin-bottom: 16px;
-        }
-
-        textarea {
-            width: 100%;
-            min-height: 180px;
-            padding: 12px;
-            font-family: monospace;
-            box-sizing: border-box;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            resize: vertical;
-        }
-
-        .actions {
-            text-align: center;
-            margin: 16px 0 32px 0;
-        }
-
-        button {
-            padding: 10px 18px;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
-            background: #2563eb;
-            color: white;
-        }
-
-        button.copy {
-            background: #4b5563;
-            margin-top: 10px;
-        }
-
-        button:hover {
-            opacity: 0.9;
-        }
-
-        .container {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            width: 100%;
-            margin: 0 auto;
-        }
-
-        .block {
-            flex: 1;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .block h2 {
-            text-align: center;
-            margin: 0 0 12px 0;
-        }
-
-        .content {
-            flex: 1;
-            white-space: pre-wrap;
-            font-family: monospace;
-            font-size: 14px;
-            background: #f9fafb;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 12px;
-            overflow-y: auto;
-        }
-    </style>
 </head>
-
 <body>
     <h1>JSON Data Viewer</h1>
 
@@ -97,18 +19,21 @@
             <h2>Text</h2>
             <div id="textBlock" class="content" onclick="copyBlock('textBlock')"></div>
             <button class="copy" onclick="copyBlock('textBlock')">Copy</button>
+            <div class="tooltip" id="textTooltip">Copied!</div>
         </div>
 
         <div class="block">
             <h2>Correct</h2>
             <div id="correctBlock" class="content" onclick="copyBlock('correctBlock')"></div>
             <button class="copy" onclick="copyBlock('correctBlock')">Copy</button>
+            <div class="tooltip" id="correctTooltip">Copied!</div>
         </div>
 
         <div class="block">
             <h2>Result</h2>
             <div id="resultBlock" class="content" onclick="copyBlock('resultBlock')"></div>
             <button class="copy" onclick="copyBlock('resultBlock')">Copy</button>
+            <div class="tooltip" id="resultTooltip">Copied!</div>
         </div>
     </div>
 
@@ -147,7 +72,22 @@
 
         function copyBlock(id) {
             const text = document.getElementById(id).textContent;
-            navigator.clipboard.writeText(text);
+            //navigator.clipboard.writeText(text);
+            navigator.clipboard.writeText(text).then(() => {
+                // Show tooltip for the specific block
+                const tooltipId = id.replace('Block', 'Tooltip');
+                const tooltip = document.getElementById(tooltipId);
+                
+                // Show tooltip
+                tooltip.classList.add('show');
+                
+                // Hide tooltip after 2 seconds
+                setTimeout(() => {
+                    tooltip.classList.remove('show');
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
         }
         // Run processJson on input in the textarea
         document.getElementById('jsonInput').addEventListener('input', processJson);

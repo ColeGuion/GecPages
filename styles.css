@@ -3,4 +3,117 @@ body {
     background: #f4f6f8;
     margin: 0;
     padding: 24px;
+    padding-top: 0;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+textarea {
+    width: 100%;
+    min-height: 250px;
+    padding: 12px;
+    font-family: monospace;
+    box-sizing: border-box;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    resize: vertical;
+    font-size: 10px;
+}
+
+.actions {
+    text-align: center;
+    margin: 16px 0 32px 0;
+}
+
+button {
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    background: #2563eb;
+    color: white;
+}
+
+button.copy {
+    background: #4b5563;
+    margin-top: 10px;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.block {
+    flex: 1;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.block h2 {
+    text-align: center;
+    margin: 0 0 12px 0;
+}
+
+.content {
+    flex: 1;
+    white-space: pre-wrap;
+    font-family: monospace;
+    font-size: 14px;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 12px;
+    overflow-y: auto;
+}
+
+/* Tooltip styles */
+.tooltip {
+    position: absolute;
+    /* bottom: 60px;
+    bottom: 10px; */
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: normal;
+    white-space: nowrap;
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.tooltip:after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: #333;
+}
+
+.tooltip.show {
+    opacity: 1;
+    visibility: visible;
 }

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8" />
-    <title>JSON Three-Block Viewer</title>
+    <title>Json Data Viewer</title>
     <link rel="stylesheet" href="styles.css">
     <style>
         h1 {
@@ -84,7 +84,7 @@
 </head>
 
 <body>
-    <h1>JSON Text / Correct / Result Viewer</h1>
+    <h1>JSON Data Viewer</h1>
 
     <textarea id="jsonInput" placeholder="Paste your JSON array here..."></textarea>
 
@@ -95,19 +95,19 @@
     <div class="container">
         <div class="block">
             <h2>Text</h2>
-            <div id="textBlock" class="content"></div>
+            <div id="textBlock" class="content" onclick="copyBlock('textBlock')"></div>
             <button class="copy" onclick="copyBlock('textBlock')">Copy</button>
         </div>
 
         <div class="block">
             <h2>Correct</h2>
-            <div id="correctBlock" class="content"></div>
+            <div id="correctBlock" class="content" onclick="copyBlock('correctBlock')"></div>
             <button class="copy" onclick="copyBlock('correctBlock')">Copy</button>
         </div>
 
         <div class="block">
             <h2>Result</h2>
-            <div id="resultBlock" class="content"></div>
+            <div id="resultBlock" class="content" onclick="copyBlock('resultBlock')"></div>
             <button class="copy" onclick="copyBlock('resultBlock')">Copy</button>
         </div>
     </div>
@@ -149,6 +149,8 @@
             const text = document.getElementById(id).textContent;
             navigator.clipboard.writeText(text);
         }
+        // Run processJson on input in the textarea
+        document.getElementById('jsonInput').addEventListener('input', processJson);
     </script>
 
 </body>

@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div class="clipboard-status" id="clipboardStatus">Text copied to clipboard!</div>
+
     <h1>JSON Data Viewer</h1>
     <textarea id="jsonInput" placeholder="Paste your JSON array here..."></textarea>
 
@@ -39,95 +41,15 @@
 
     <div id="itemViewer" class="item-viewer">
         <button class="nav-btn" onclick="prevItem()">&#8592;</button>
-        <div id="itemContentContainer" class="item-content-container"><pre id="itemContent" class="item-content"></pre></div>
+        <div id="itemContentContainer" class="item-content-container">
+            <pre id="itemContent" class="item-content"></pre>
+        </div>
         <button class="nav-btn" onclick="nextItem()">&#8594;</button>
         <div id="itemNumbers" class="item-numbers"></div>
     </div>
 
 
     <script>
-        const inputBox = document.getElementById('jsonInput');
-        // Global variables to store JSON data and current item index
-        let jsonData = [];
-        let currentItemIndex = 0;
-
-        function processJson() {
-            let input = inputBox.value.trim();
-            let data;
-            try {
-                // Remove trailing comma if present
-                if (input.endsWith(',')) input = input.slice(0, -1);
-                // Allow users to paste raw object lists without surrounding []
-                const normalized = input.startsWith('[') ? input : `[${input}]`;
-                jsonData = JSON.parse(normalized);
-            } catch (err) {
-                alert('Invalid JSON');
-                return;
-            }
-
-            const textLines = [];
-            const correctLines = [];
-            const resultLines = [];
-
-            for (const item of jsonData) {
-                if (item.Text) textLines.push(item.Text);
-                if (item.Correct) correctLines.push(item.Correct);
-                if (item.Result) resultLines.push(item.Result);
-            }
-
-            document.getElementById('textBlock').textContent = textLines.join('\n');
-            document.getElementById('correctBlock').textContent = correctLines.join('\n');
-            document.getElementById('resultBlock').textContent = resultLines.join('\n');
-
-            // Show the item viewer if we have data
-            if (jsonData.length > 0) {
-                document.getElementById('itemViewer').classList.add('active');
-                currentItemIndex = 0;
-                updateItemViewer();
-                generateNumberButtons();
-            } else {
-                document.getElementById('itemViewer').classList.remove('active');
-            }
-        }
-        function updateItemViewer() {
-            const item = jsonData[currentItemIndex];
-            document.getElementById('itemContent').textContent = JSON.stringify(item, null, 2);
-
-            document.querySelectorAll('#itemNumbers button').forEach((btn, i) => {
-                btn.classList.toggle('active', i === currentItemIndex);
-            });
-        }
-
-        function prevItem() {
-            if (currentItemIndex > 0) {
-                currentItemIndex--;
-                updateItemViewer();
-            }
-        }
-
-        function nextItem() {
-            if (currentItemIndex < jsonData.length - 1) {
-                currentItemIndex++;
-                updateItemViewer();
-            }
-        }
-
-        function generateNumberButtons() {
-            const container = document.getElementById('itemNumbers');
-            container.innerHTML = '';
-
-            jsonData.forEach((_, i) => {
-                const btn = document.createElement('button');
-                btn.textContent = i + 1;
-                btn.onclick = () => {
-                    currentItemIndex = i;
-                    updateItemViewer();
-                };
-                container.appendChild(btn);
-            });
-        }
-
-        
         function clearBox() {
             inputBox.value = "";
         }
@@ -151,11 +73,7 @@
                 console.error('Failed to copy text: ', err);
             });
         }
-        
-        // Run processJson on input in the textarea
-        inputBox.addEventListener('input', processJson);
     </script>
-
+    <script src="script.js"></script>
 </body>
-
 </html>

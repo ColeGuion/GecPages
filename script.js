@@ -102,9 +102,13 @@ function processJson() {
     const resultLines = [];
 
     for (const item of jsonData) {
-        if (item.Text) textLines.push(item.Text);
-        if (item.Correct) correctLines.push(item.Correct);
-        if (item.Result) resultLines.push(item.Result);
+        let text = item.Text || item.text || "";
+        let corr = item.Correct || item.correct || "";
+        let res = item.Result || item.result || "";
+
+        if (text) textLines.push(text);
+        if (corr) correctLines.push(corr);
+        if (res) resultLines.push(res);
     }
 
     document.getElementById('textBlock').textContent = textLines.join('\n');

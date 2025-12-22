@@ -124,7 +124,11 @@ function processJson() {
 
 function updateItemViewer() {
     const item = jsonData[currentItemIndex];
-    createStyledBlock(item.Category, item.Text, item.Correct, item.Result);
+    let ctg = item.Category || item.category || item.Type || item.type || "";
+    let text = item.Text || item.text || "";
+    let corr = item.Correct || item.correct || "";
+    let res = item.Result || item.result || "";
+    createStyledBlock(ctg, text, corr, res);
 
 
     // OLD

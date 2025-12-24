@@ -9,6 +9,13 @@
 <body>
     <div class="clipboard-status" id="clipboardStatus">Text copied to clipboard!</div>
 
+    <div id="copy-check">
+        <label>
+            <input type="checkbox" id="copyWithLine" checked/>
+            Copy with Line
+        </label>
+    </div>
+
     <h1>JSON Data Viewer</h1>
     <textarea id="jsonInput" placeholder="Paste your JSON array here..."></textarea>
 
@@ -50,13 +57,17 @@
 
 
     <script>
+        const copyWithLineCheckbox = document.getElementById("copyWithLine");
         function clearBox() {
             inputBox.value = "";
         }
 
         function copyBlock(id) {
             const text = document.getElementById(id).textContent;
-            let copyText = `========== ${id.replace('Block', '').toUpperCase()} ==========\n` + text;
+            let copyText = text;
+            if (copyWithLineCheckbox && copyWithLineCheckbox.checked) {
+                copyText = `========== ${id.replace('Block', '').toUpperCase()} ==========\n` + copyText;
+            }
             navigator.clipboard.writeText(copyText).then(() => {
                 // Show tooltip for the specific block
                 const tooltipId = id.replace('Block', 'Tooltip');

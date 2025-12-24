@@ -12,6 +12,23 @@ body {
 h1 {
     text-align: center;
     margin-bottom: 16px;
+    margin-top: 0.67em;
+}
+
+#copy-check {
+    position: absolute;
+    top: 0.67em;
+    left: 24px;
+}
+#copy-check label {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    gap: 10px;
+}
+#copyWithLine {
+    width: 32px;
+    height: 32px;
 }
 
 textarea {

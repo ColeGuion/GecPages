@@ -14,6 +14,14 @@ h1 {
     margin-bottom: 16px;
     margin-top: 0.67em;
 }
+.errorTip {
+    color: #d32f2f;
+    font-size: 0.9em;
+    margin-top: 5px;
+    padding: 5px;
+    background-color: #ffebee;
+    border-left: 3px solid #d32f2f;
+}
 
 #copy-check {
     position: absolute;

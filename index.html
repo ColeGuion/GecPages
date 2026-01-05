@@ -16,8 +16,11 @@
         </label>
     </div>
 
-    <h1>JSON Data Viewer</h1>
-    <textarea id="jsonInput" placeholder="Paste your JSON array here..."></textarea>
+    <div>
+        <h1>JSON Data Viewer</h1>
+        <textarea id="jsonInput" placeholder="Paste your JSON array here..."></textarea>
+        <div id="error-tooltip" class="errorTip" style="display: none;">Invalid JSON!</div>
+    </div>
 
     <div class="actions">
         <button onclick="clearBox()">Clear</button>

@@ -85,6 +85,7 @@ function showClipboardNotification() {
 
 
 function processJson() {
+    const errorEl = document.getElementById('error-tooltip');
     let input = document.getElementById('jsonInput').value.trim();
     try {
         // Remove trailing comma if present
@@ -92,8 +93,9 @@ function processJson() {
         // Allow users to paste raw object lists without surrounding []
         const normalized = input.startsWith('[') ? input : `[${input}]`;
         jsonData = JSON.parse(normalized);
+        errorEl.style.display = 'none';
     } catch (err) {
-        alert('Invalid JSON');
+        errorEl.style.display = 'block';
         return;
     }
 
